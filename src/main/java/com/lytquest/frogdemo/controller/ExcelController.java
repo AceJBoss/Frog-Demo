@@ -16,25 +16,25 @@ import java.util.List;
 @RequestMapping("/api/book")
 public class ExcelController {
 
-    ExcelServiceImpl fileService;
+    private ExcelServiceImpl fileService;
+    public ExcelController(ExcelServiceImpl fileService){
+        this.fileService = fileService;
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
         if (ExcelHelper.hasExcelFormat(file)) {
             try {
                 fileService.saveBook(file);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(message));
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Uploaded the file successfully: " + file.getOriginalFilename()));
             } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ApiResponse(message));
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ApiResponse("Could not upload the file: " + file.getOriginalFilename() + "!"));
             }
         }
-        message = "Please upload an excel file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(message));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Please upload an excel file!"));
     }
 
-    @GetMapping("/tutorials")
+    @GetMapping("/books")
     public ResponseEntity<List<Book>> getAllBooks() {
         try {
             List<Book> books = fileService.getAllBooks();
