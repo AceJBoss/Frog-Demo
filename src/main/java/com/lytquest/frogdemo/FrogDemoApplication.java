@@ -1,0 +1,13 @@
+package com.lytquest.frogdemo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FrogDemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(FrogDemoApplication.class, args);
+    }
+
+}
