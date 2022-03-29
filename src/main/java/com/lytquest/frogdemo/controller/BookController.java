@@ -22,11 +22,6 @@ public class BookController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello World";
-    }
-
     @PostMapping("/book-upload")
     @PreAuthorize("hasRole(1)")
     public ResponseEntity<ApiResponse> uploadFile(@RequestParam("file") MultipartFile file) {

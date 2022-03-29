@@ -1,16 +1,11 @@
 package com.lytquest.frogdemo.service.impl;
 
-import com.lytquest.frogdemo.entity.Role;
 import com.lytquest.frogdemo.entity.User;
 import com.lytquest.frogdemo.exception.ResourceNotFoundException;
 import com.lytquest.frogdemo.repository.RoleRepository;
 import com.lytquest.frogdemo.repository.UserRepository;
 import com.lytquest.frogdemo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
