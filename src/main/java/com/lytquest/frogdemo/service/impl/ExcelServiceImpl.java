@@ -12,15 +12,17 @@ import java.util.List;
 
 @Service
 public class ExcelServiceImpl implements ExcelService {
+
     private BookRepository repository;
     public ExcelServiceImpl(BookRepository repository){
         this.repository = repository;
     }
+
     @Override
     public void saveBook(MultipartFile file) {
         try {
-            List<Book> tutorials = ExcelHelper.excelToBooks(file.getInputStream());
-            repository.saveAll(tutorials);
+            List<Book> books = ExcelHelper.readExcel(file.getInputStream());
+            repository.saveAll(books);
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }

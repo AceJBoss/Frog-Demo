@@ -1,7 +1,6 @@
 package com.lytquest.frogdemo.repository;
 
 import com.lytquest.frogdemo.entity.Role;
-import com.lytquest.frogdemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

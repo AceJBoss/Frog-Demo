@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:8081")
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/v1")
 public class BookController {
 
     private ExcelServiceImpl fileService;
@@ -22,14 +22,20 @@ public class BookController {
         this.fileService = fileService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/upload")
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hello World";
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/book-upload")
     public ResponseEntity<ApiResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         if (ExcelHelper.hasExcelFormat(file)) {
             try {
                 fileService.saveBook(file);
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Uploaded the file successfully: " + file.getOriginalFilename()));
             } catch (Exception e) {
+                System.out.println("Error " + e);
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ApiResponse("Could not upload the file: " + file.getOriginalFilename() + "!"));
             }
         }

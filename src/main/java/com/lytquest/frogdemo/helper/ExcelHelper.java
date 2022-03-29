@@ -11,12 +11,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 public class ExcelHelper {
 
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERS = { "Id", "Title", "Description", "Download" };
+    static String[] HEADERS = { "Id", "Title", "Description", "Downloads" };
     static String SHEET = "Books";
 
     public static boolean hasExcelFormat(MultipartFile file) {
@@ -25,49 +27,22 @@ public class ExcelHelper {
         }
         return true;
     }
-    public static List<Book> excelToBooks(InputStream is) {
-        try {
-            Workbook workbook = new XSSFWorkbook(is);
-            Sheet sheet = workbook.getSheet(SHEET);
-            Iterator<Row> rows = sheet.iterator();
-            List<Book> books = new ArrayList<Book>();
-            int rowNumber = 0;
-            while (rows.hasNext()) {
-                Row currentRow = rows.next();
-                // skip header
-                if (rowNumber == 0) {
-                    rowNumber++;
-                    continue;
-                }
-                Iterator<Cell> cellsInRow = currentRow.iterator();
-                Book book = new Book();
-                int cellIdx = 0;
-                while (cellsInRow.hasNext()) {
-                    Cell currentCell = cellsInRow.next();
-                    switch (cellIdx) {
-                        case 0:
-                            book.setId((long) currentCell.getNumericCellValue());
-                            break;
-                        case 1:
-                            book.setTitle(currentCell.getStringCellValue());
-                            break;
-                        case 2:
-                            book.setDescription(currentCell.getStringCellValue());
-                            break;
-                        case 3:
-                            book.setDownloads((int) currentCell.getNumericCellValue());
-                            break;
-                        default:
-                            break;
-                    }
-                    cellIdx++;
-                }
-                books.add(book);
-            }
-            workbook.close();
-            return books;
-        } catch (IOException e) {
-            throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
+
+    public static List<Book> readExcel(InputStream is) throws IOException {
+        List<Book> tempBookList = new ArrayList<Book>();
+        XSSFWorkbook workbook = new XSSFWorkbook(is);
+        XSSFSheet worksheet = workbook.getSheetAt(0);
+
+        for(int i=1;i<worksheet.getPhysicalNumberOfRows();i++) {
+            Book book = new Book();
+
+            XSSFRow row = worksheet.getRow(i);
+            book.setId((long) row.getCell(0).getNumericCellValue());
+            book.setTitle(row.getCell(1).getStringCellValue());
+            book.setDescription(row.getCell(2).getStringCellValue());
+            book.setDownloads((int)row.getCell(3).getNumericCellValue());
+            tempBookList.add(book);
         }
+        return tempBookList;
     }
 }
