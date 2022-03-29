@@ -26,7 +26,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    @Scheduled(cron="0 6 * * * *")
+    //@Scheduled(cron="0 6 * * * *")
     public void saveBook(MultipartFile file) {
         try {
             List<Book> books = ExcelHelper.readExcel(file.getInputStream());
