@@ -42,8 +42,8 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Please upload an excel file!"));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/books")
+    @PreAuthorize("hasRole(1)")
     public ResponseEntity<List<Book>> getAllBooks() {
         try {
             List<Book> books = fileService.getAllBooks();
