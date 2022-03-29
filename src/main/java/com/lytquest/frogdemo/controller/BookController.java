@@ -3,7 +3,7 @@ package com.lytquest.frogdemo.controller;
 import com.lytquest.frogdemo.dto.ApiResponse;
 import com.lytquest.frogdemo.entity.Book;
 import com.lytquest.frogdemo.helper.ExcelHelper;
-import com.lytquest.frogdemo.service.impl.ExcelServiceImpl;
+import com.lytquest.frogdemo.service.impl.BookServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,8 +17,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class BookController {
 
-    private ExcelServiceImpl fileService;
-    public BookController(ExcelServiceImpl fileService){
+    private BookServiceImpl fileService;
+    public BookController(BookServiceImpl fileService){
         this.fileService = fileService;
     }
 
@@ -47,6 +47,22 @@ public class BookController {
             }
             return new ResponseEntity<>(books, HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/books-async")
+    @PreAuthorize("hasRole(1)")
+    public ResponseEntity<List<Book>> getAllBooksAysnc() {
+        try {
+            List<Book> books = fileService.getAllBookAsync();
+            if (books.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(books, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Error " + e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

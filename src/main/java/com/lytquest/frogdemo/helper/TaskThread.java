@@ -5,12 +5,12 @@ import com.lytquest.frogdemo.repository.BookRepository;
 
 import java.util.List;
 
-class TaskThread implements Runnable
+public class TaskThread implements Runnable
 {
     private final BookRepository bookRepository;
-    List<Book> books;
+    public List<Book> books;
 
-    TaskThread(BookRepository bookRepository)
+    public TaskThread(BookRepository bookRepository)
     {
         this.bookRepository = bookRepository;
     }

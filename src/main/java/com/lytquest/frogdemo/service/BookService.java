@@ -5,7 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ExcelService {
+public interface BookService {
     public void saveBook(MultipartFile file);
     public List<Book> getAllBooks();
+    public List<Book> getAllBookAsync();
 }
