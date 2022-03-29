@@ -2,6 +2,7 @@ package com.lytquest.frogdemo.service.impl;
 
 import com.lytquest.frogdemo.entity.Book;
 import com.lytquest.frogdemo.helper.ExcelHelper;
+import com.lytquest.frogdemo.helper.ThreadPoolExecutorUtil;
 import com.lytquest.frogdemo.repository.BookRepository;
 import com.lytquest.frogdemo.service.ExcelService;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,12 @@ import java.util.List;
 @Service
 public class ExcelServiceImpl implements ExcelService {
 
+    private final ThreadPoolExecutorUtil threadPoolExecutorUtil;
     private BookRepository repository;
-    public ExcelServiceImpl(BookRepository repository){
+
+    public ExcelServiceImpl(BookRepository repository, ThreadPoolExecutorUtil threadPoolExecutorUtil){
         this.repository = repository;
+        this.threadPoolExecutorUtil = threadPoolExecutorUtil;
     }
 
 
