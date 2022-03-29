@@ -19,4 +19,10 @@ public class Book {
     private String title;
     private String description;
     private Integer downloads;
+
+    public Book(String title, String description, Integer downloads){
+        this.title = title;
+        this.description = description;
+        this.downloads = downloads;
+    }
 }
