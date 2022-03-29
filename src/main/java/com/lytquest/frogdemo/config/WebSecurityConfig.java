@@ -46,10 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+//    "/api/v1/book-upload",
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/api/v1/register", "/api/v1/login", "/api/v1/book-upload", "/api/v1/").permitAll()
+                .authorizeRequests().antMatchers("/api/v1/register", "/api/v1/login", "/api/v1/").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

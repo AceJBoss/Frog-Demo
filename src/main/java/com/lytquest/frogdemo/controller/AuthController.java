@@ -53,11 +53,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public User signUp(@RequestBody User user, @PathVariable Long roleId) throws ResourceNotFoundException {
+    public User signUp(@RequestBody User user) throws ResourceNotFoundException {
         String password = user.getPassword();
         String encodedPassword = new BCryptPasswordEncoder().encode(password);
         user.setPassword(encodedPassword);
-        return userService.createAdminAccount(user, roleId);
+        return userService.createAdminAccount(user);
     }
 
 

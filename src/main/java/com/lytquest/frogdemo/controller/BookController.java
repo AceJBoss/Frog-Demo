@@ -27,8 +27,8 @@ public class BookController {
         return "Hello World";
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/book-upload")
+    @PreAuthorize("hasRole(1)")
     public ResponseEntity<ApiResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         if (ExcelHelper.hasExcelFormat(file)) {
             try {

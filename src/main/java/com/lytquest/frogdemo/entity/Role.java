@@ -14,10 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
     private RoleName roleName;

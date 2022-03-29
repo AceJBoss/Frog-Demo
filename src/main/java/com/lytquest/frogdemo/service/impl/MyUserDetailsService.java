@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class MyUserDetailsService implements UserDetailsService{
 	private UserRepository userRepository;
-//	String ROLE_PREFIX = "ROLE_";
+	String ROLE_PREFIX = "ROLE_";
 	public MyUserDetailsService(UserRepository userRepository){
 		this.userRepository = userRepository;
 	}
@@ -27,12 +27,12 @@ public class MyUserDetailsService implements UserDetailsService{
 	 public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 	     Optional<User> user = userRepository.findByUsername(username);
 		 return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(),
-				 mapRolesToAuthorities(user.get().getRole().getRoleName().toString()));
+				 mapRolesToAuthorities(user.get().getRole().getId()));
 	}
 
-	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(String role) {
+	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Long role) {
 		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-		list.add(new SimpleGrantedAuthority(role));
+		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role));
 		return list;
 	}
 }

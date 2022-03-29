@@ -24,11 +24,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createAdminAccount(User user, Long roleId) throws ResourceNotFoundException {
-        return roleRepository.findById(roleId).map(role->{
+    public User createAdminAccount(User user) throws ResourceNotFoundException {
+        return roleRepository.findById(1L).map(role->{
             user.setRole(role);
             return userRepository.save(user);
-        }).orElseThrow(()-> new ResourceNotFoundException("Role Id " + roleId + "does not exist"));
+        }).orElseThrow(()-> new ResourceNotFoundException("Role Id does not exist"));
     }
 
 }
