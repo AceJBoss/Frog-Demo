@@ -3,13 +3,17 @@
 **How to run**
 
 
-Clone the Pokedox project then
+Clone the Frog Demo project then
 open intelliJ idea and clone using VCS, Paste the link gotten from the cloning
 Ensure to install _java_ JDK 1.8
 Install _maven_
 the dependencies will be downloaded automatically, and the project should be ready to
 run but if that's not the case then kindly run the `mvn install` command in the directory of the project where you can
 find the _pom.xml_ file.
+
+**Testing**
+
+The application can be tested by running the _mvn test_ command in the project root directory.
 
 
 **Containerization**
