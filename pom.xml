@@ -108,6 +108,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>frog-demo</finalName>
     </build>
 
 </project>
