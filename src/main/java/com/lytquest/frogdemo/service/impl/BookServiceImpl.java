@@ -6,6 +6,7 @@ import com.lytquest.frogdemo.helper.TaskThread;
 import com.lytquest.frogdemo.repository.BookRepository;
 import com.lytquest.frogdemo.service.BookService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +38,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Cacheable(cacheNames = "books")
     public List<Book> getAllBooks() {
         List<Book> bookList = repository.findAll();
         log.info("Available Books => " + bookList);
