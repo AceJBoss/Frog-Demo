@@ -1,6 +1,6 @@
 # Frog Demo
 
-**How to run**
+**HOW TO RUN**
 
 
 Clone the Frog Demo project then
@@ -11,12 +11,17 @@ the dependencies will be downloaded automatically, and the project should be rea
 run but if that's not the case then kindly run the `mvn install` command in the directory of the project where you can
 find the _pom.xml_ file.
 
-**Testing**
+
+**CACHING**
+
+Retrieving book data requests is cached to avoid round trip calls to the database and also improve performance of the system
+
+**TESTING**
 
 The application can be tested by running the _mvn test_ command in the project root directory.
 
 
-**Containerization**
+**CONTAINERIZATION**
 
 I added a docker file for app containerization please run a maven install in the root directory _"mvn install"_
 Next run a docker build : "docker build -t frog-demo.jar ."
