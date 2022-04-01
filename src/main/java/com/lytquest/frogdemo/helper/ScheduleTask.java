@@ -11,7 +11,7 @@ public class ScheduleTask {
     @Autowired
     private BookServiceImpl service;
 
-    @Scheduled(cron="0 14 4 * * *")
+    @Scheduled(cron="0 0 13 * * ?")
     public void doScheduleJob(){
         service.readDataAsync();
     }
