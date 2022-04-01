@@ -54,7 +54,7 @@ public class BookController {
 
     @GetMapping("/books-async")
     @PreAuthorize("hasRole(1)")
-    public ResponseEntity<List<Book>> getAllBooksAysnc() {
+    public ResponseEntity<List<Book>> getAllBooksAsync() {
         try {
             List<Book> books = fileService.getAllBookAsync();
             if (books.isEmpty()) {

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,9 +43,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAllBooks() {
-        return repository.findAll()
-                .stream().sorted(Comparator.comparingInt(Book::getDownloads))
-                .collect(Collectors.toList());
+        List<Book> bookList = repository.findAll();
+        return downloadSorter(bookList);
     }
 
     @Override
@@ -62,7 +62,29 @@ public class BookServiceImpl implements BookService {
         return taskThread.books;
     }
 
-    //@Scheduled(cron="0 6 * * * *")
+   // Implementing quick sort algorithm to return book with the least download
+    public List<Book> downloadSorter(List<Book> books) {
+        if (books.size() <= 1) {
+            return books;
+        }
+
+        List<Book> lowestDownload = new ArrayList<>();
+        List<Book> highestDownload = new ArrayList<>();
+
+        Book pivot = books.get(0);
+        for (int i = 1; i < books.size(); i++) {
+            if (books.get(i).getDownloads() < pivot.getDownloads()) {
+                lowestDownload.add(books.get(i));
+            } else {
+                highestDownload.add(books.get(i));
+            }
+        }
+        lowestDownload = downloadSorter(lowestDownload);
+        highestDownload = downloadSorter(highestDownload);
+        lowestDownload.add(pivot);
+        lowestDownload.addAll(highestDownload);
+        return highestDownload;
+    }
 
 
 }
