@@ -6,6 +6,7 @@ import com.lytquest.frogdemo.helper.TaskThread;
 import com.lytquest.frogdemo.helper.ThreadPoolExecutorUtil;
 import com.lytquest.frogdemo.repository.BookRepository;
 import com.lytquest.frogdemo.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService {
 
     private final ThreadPoolExecutorUtil threadPoolExecutorUtil;
@@ -44,6 +46,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAllBooks() {
         List<Book> bookList = repository.findAll();
+        log.info("Book List " + bookList);
         return downloadSorter(bookList);
     }
 
@@ -83,7 +86,7 @@ public class BookServiceImpl implements BookService {
         highestDownload = downloadSorter(highestDownload);
         lowestDownload.add(pivot);
         lowestDownload.addAll(highestDownload);
-        return highestDownload;
+        return lowestDownload;
     }
 
 
