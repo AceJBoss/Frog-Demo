@@ -52,18 +52,18 @@ public class BookController {
     }
 
 
-    @GetMapping("/books-async")
-    @PreAuthorize("hasRole(1)")
-    public ResponseEntity<List<Book>> getAllBooksAsync() {
-        try {
-            List<Book> books = fileService.getAllBookAsync();
-            if (books.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(books, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println("Error " + e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/books-async")
+//    @PreAuthorize("hasRole(1)")
+//    public ResponseEntity<List<Book>> getAllBooksAsync() {
+//        try {
+//            List<Book> books = fileService.getAllBookAsync();
+//            if (books.isEmpty()) {
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//            return new ResponseEntity<>(books, HttpStatus.OK);
+//        } catch (Exception e) {
+//            System.out.println("Error " + e);
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }
