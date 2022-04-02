@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     // Using ThreadPoolExecutor to read Data Asynchronously
-    public void readDataAsync(){
+    public synchronized void readDataAsync(){
         int cpuCount = Runtime.getRuntime().availableProcessors(); //
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(cpuCount);
 
