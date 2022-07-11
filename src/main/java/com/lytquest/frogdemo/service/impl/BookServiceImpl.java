@@ -7,14 +7,14 @@ import com.lytquest.frogdemo.repository.BookRepository;
 import com.lytquest.frogdemo.service.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 
 @Service
@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
 
     private BookRepository repository;
 
-    public BookServiceImpl(BookRepository repository){
+    public BookServiceImpl(BookRepository repository) {
         this.repository = repository;
     }
 
@@ -41,11 +41,11 @@ public class BookServiceImpl implements BookService {
     @Cacheable(cacheNames = "books")
     public List<Book> getAllBooks() {
         List<Book> bookList = repository.findAll();
-        log.info("Available Books => " + bookList);
+        //log.info("Available Books => " + bookList);
         return downloadSorter(bookList);
     }
 
-   // Implementing quick sort algorithm to return book with the least download
+    // Implementing quick sort algorithm to return book with the least download
     public List<Book> downloadSorter(List<Book> books) {
         if (books.size() <= 1) {
             return books;
@@ -69,15 +69,17 @@ public class BookServiceImpl implements BookService {
         return lowestDownload;
     }
 
-    // Using ThreadPoolExecutor to read Data
-    public synchronized void readDataAsync(){
-        int cpuCount = Runtime.getRuntime().availableProcessors(); //
-        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(cpuCount);
+    public void readDataAsync() throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        for(int c = 0; c < 100; c++){
-            threadPoolExecutor.execute(new TaskThread(BookServiceImpl.this));
+        CompletableFuture.supplyAsync(()-> {
+            System.out.println("Thread running when reading is " + Thread.currentThread().getName() + "<<<<>>>>>" + getAllBooks());
+            return getAllBooks();
+            }, executorService
+        ).thenApplyAsync((books)->{
+            System.out.println("Thread running when sorting is " + Thread.currentThread().getName() + "<<<<>>>>>" +downloadSorter(books));
+            return downloadSorter(books);
         }
+        ).get();
     }
-
-
 }
